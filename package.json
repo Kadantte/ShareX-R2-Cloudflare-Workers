@@ -13,29 +13,41 @@
 	},
 	"license": "MIT",
 	"author": "James Ross <james@jross.me> (https://jross.me)",
-	"main": "index.js",
+	"type": "module",
+	"main": "dist/index.mjs",
 	"scripts": {
-		"build": "esbuild src/index.mjs --format=esm --platform=neutral --bundle --minify --sourcemap --outfile=dist/index.mjs",
-		"dev": "npx miniflare --kv-persist -w",
-		"lint": "npm run lint:js && npm run lint:json",
-		"lint:js": "eslint \"src/**/*.{js,mjs}\"",
-		"lint:js:fix": "eslint \"src/**/*.{js,mjs}\" --fix",
+		"build": "esbuild src/index.ts --format=esm --platform=neutral --bundle --minify --sourcemap --main-fields=browser,module,main --outfile=dist/index.mjs",
+		"check-types": "npm run check-types:worker && npm run check-types:tests",
+		"check-types:worker": "tsc --noEmit",
+		"check-types:tests": "tsc --noEmit -p test/tsconfig.json",
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"lint": "npm run lint:js && npm run lint:json && npm run check-types",
+		"lint:js": "eslint \"**/*.{js,mjs,ts}\"",
+		"lint:js:fix": "eslint \"**/*.{js,mjs,ts}\" --fix",
 		"lint:json": "eslint \"**/*.json\"",
 		"publish": "wrangler publish",
-		"test": "npm run lint"
+		"test": "vitest"
 	},
 	"devDependencies": {
-		"@nodecraft/eslint-config": "17.0.0",
-		"esbuild": "0.14.38",
-		"eslint": "8.14.0",
-		"eslint-plugin-import": "2.26.0",
-		"eslint-plugin-json": "3.1.0",
-		"eslint-plugin-node": "11.1.0",
-		"eslint-plugin-unicorn": "42.0.0",
-		"itty-router": "2.6.1"
+		"@cloudflare/vitest-pool-workers": "0.5.40",
+		"@cloudflare/workers-types": "4.20241230.0",
+		"@nodecraft/eslint-config": "44.3.0",
+		"@typescript-eslint/eslint-plugin": "8.19.0",
+		"@typescript-eslint/parser": "8.19.0",
+		"esbuild": "0.24.2",
+		"eslint": "8.57.1",
+		"eslint-plugin-import": "2.31.0",
+		"eslint-plugin-json": "4.0.1",
+		"eslint-plugin-unicorn": "56.0.1",
+		"itty-router": "5.0.18",
+		"render2": "1.4.1",
+		"typescript": "5.7.2",
+		"vitest": "2.1.8",
+		"wrangler": "3.99.0"
 	},
 	"engines": {
-		"node": ">=16",
-		"npm": ">=8"
+		"node": ">=20",
+		"npm": ">=10"
 	}
 }

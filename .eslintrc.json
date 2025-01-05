@@ -1,22 +1,12 @@
 {
 	"root": true,
 	"extends": [
-		"@nodecraft"
+		"@nodecraft/eslint-config/typescript"
 	],
 	"plugins": [
 		"json"
 	],
 	"rules": {
-		"no-var": "error",
-		"prefer-const": "error",
-		"node/no-unsupported-features/es-syntax": "off"
-	},
-	"parserOptions": {
-		"allowImportExportEverywhere": true,
-		"ecmaVersion": 2020,
-		"ecmaFeatures": {
-			"impliedStrict": true
-		},
-		"sourceType": "module"
+		"n/no-unsupported-features/node-builtins": "off"
 	}
 }
